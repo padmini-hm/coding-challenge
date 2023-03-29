@@ -14,14 +14,25 @@ class CompanyRepository
             account_number: row[0],
             balance: row[1].to_f
             }
-           if(hash[:account_number].length == 16 && hash[:account_number].match?(/^\d+$/))
-             customer_acount_info = CustomerAccountInfo.new(hash)
-             
-             @repo << Company.new(@company_name, customer_acount_info)
-           else
-            puts "#{hash[:account_number]} is an invalid account number"
-           end 
+            if (is_balance_negetive?(hash)) 
+                puts "#{hash[:account_number]} has invalid Balance(#{hash[:balance]})" 
+            else
+                 is_account_number_valid?(hash)
+            end
         end
+    end
+
+    def is_account_number_valid?(hash)
+        if(hash[:account_number].length == 16 && hash[:account_number].match?(/^\d+$/))
+            customer_acount_info = CustomerAccountInfo.new(hash)
+            @repo << Company.new(@company_name, customer_acount_info)
+        else
+           puts "#{hash[:account_number]} is an invalid account number"
+        end 
+    end
+
+    def is_balance_negetive?(hash)
+        hash[:balance].negative?
     end
 
     def display

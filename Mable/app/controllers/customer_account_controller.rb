@@ -22,21 +22,23 @@ class CustomerAccountController
     def check_account_number_update_balance
             @single_day_transactions_data.each do |data|
 
-                 check_if_the_account_number_exists?(data[:from_acc_num], data[:amount], "debit")
+                 debit_record = @repo.find_record(data[:from_acc_num])
+                 credit_record = @repo.find_record(data[:to_acc_num])   
+
+                 puts("Invalid #{data[:from_acc_num]}") if debit_record.nil?
+                 puts("Invalid #{data[:to_acc_num]}") if credit_record.nil?
+
                  
-                 check_if_the_account_number_exists?(data[:to_acc_num], data[:amount], "credit")          
+
+                 if(debit_record.nil? && credit_record.nil?)      
+                    update_balance(debit_record, data[:amount], "debit")
+                    update_balance(credit_record, data[:amount], "credit")
+                 else
+                    puts "Invalid transaction from #{data[:from_acc_num]} to #{data[:to_acc_num]} as the account_number doesn't exist"
+                 end
             end
             @repo.display
     #    @repo.update_csv
-    end
-
-    def check_if_the_account_number_exists?(account_number, amount, transaction_type)
-        record_with_account_number = @repo.find_record(account_number)
-        if (record_with_account_number != nil)
-            update_balance(record_with_account_number, amount, transaction_type)
-        else
-            puts "#{account_number} doesn't exist"
-        end
     end
 
     def update_balance(record, amount, transaction_type)
