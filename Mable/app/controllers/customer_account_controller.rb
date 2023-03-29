@@ -20,21 +20,23 @@ class CustomerAccountController
     end
 
     def check_account_number_update_balance
+        @repo.display
             @single_day_transactions_data.each do |data|
 
                  debit_record = @repo.find_record(data[:from_acc_num])
                  credit_record = @repo.find_record(data[:to_acc_num])   
 
-                 puts("Invalid #{data[:from_acc_num]}") if debit_record.nil?
-                 puts("Invalid #{data[:to_acc_num]}") if credit_record.nil?
+                 puts("Account number #{data[:from_acc_num]} doesn't exist") if (debit_record.nil?)
+                 puts("Account number #{data[:to_acc_num]} doesn't exist") if (credit_record.nil?)
 
                  
 
-                 if(debit_record.nil? && credit_record.nil?)      
+                 if(debit_record.nil? || credit_record.nil?)  
+                    puts "Invalid transaction from #{data[:from_acc_num]} to #{data[:to_acc_num]} as the account_number doesn't exist"
+                    break
+                 else    
                     update_balance(debit_record, data[:amount], "debit")
                     update_balance(credit_record, data[:amount], "credit")
-                 else
-                    puts "Invalid transaction from #{data[:from_acc_num]} to #{data[:to_acc_num]} as the account_number doesn't exist"
                  end
             end
             @repo.display
@@ -42,6 +44,7 @@ class CustomerAccountController
     end
 
     def update_balance(record, amount, transaction_type)
+        p record.customer_account_info.account_number
         if (record.customer_account_info.balance >= amount && transaction_type == "debit")
             record.customer_account_info.transaction(-amount)
         elsif (transaction_type == "credit")
