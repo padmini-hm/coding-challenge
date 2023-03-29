@@ -1,7 +1,7 @@
-require_relative 'company_model'
+require_relative '../models/customer_account_info'
 
 require 'csv'
-class CompanyRepo
+class CustomerAccountRepository
     attr_accessor :repo
 
     def initialize(csv_filepath)
@@ -12,7 +12,7 @@ class CompanyRepo
             acc_num: row[0],
             balance: row[1].to_f
             }
-            @repo << CompanyModel.new(hash[:acc_num], hash[:balance])
+            @repo << CustomerAccountInfo.new(hash[:acc_num], hash[:balance])
         end
     end
 

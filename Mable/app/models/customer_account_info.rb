@@ -1,4 +1,4 @@
-class CompanyModel
+class CustomerAccountInfo
     attr_accessor :acc_num, :balance
 
     def initialize(acc_num, balance)

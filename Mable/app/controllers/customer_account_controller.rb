@@ -1,7 +1,7 @@
-require_relative 'company_repo'
-require_relative 'company_model'
+require_relative '../repositories/customer_account_repository'
+require_relative '../models/customer_account_info'
 require 'csv'
-class CompanyController
+class CustomerAccountController
     def  initialize(csv_filepath, repo)
 
         @single_day_transactions_data = []
@@ -18,7 +18,7 @@ class CompanyController
         end
     end
 
-    def check
+    def update_balance
             @single_day_transactions_data.each do |transaction|
                 record_with_from_account_number = @repo.find_record(transaction[:from_acc_num])
                 record_with_from_account_number.balance -= transaction[:amount] if record_with_from_account_number.balance >= transaction[:amount]
