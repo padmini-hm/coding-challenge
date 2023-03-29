@@ -11,12 +11,16 @@ class CompanyRepository
         @file_path = csv_filepath
         CSV.foreach(@file_path) do |row|
             hash =  {
-            acc_num: row[0],
+            account_number: row[0],
             balance: row[1].to_f
             }
-            customer_acount_info = CustomerAccountInfo.new(hash[:acc_num], hash[:balance])
-            # @repo << Company.new(@company_name, hash[:acc_num], hash[:balance])
-            @repo << Company.new(@company_name, customer_acount_info)
+           if(hash[:account_number].length == 16 && hash[:account_number].match?(/^\d+$/))
+             customer_acount_info = CustomerAccountInfo.new(hash)
+             
+             @repo << Company.new(@company_name, customer_acount_info)
+           else
+            puts "#{hash[:account_number]} is an invalid account number"
+           end 
         end
     end
 

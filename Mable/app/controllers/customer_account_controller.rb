@@ -41,9 +41,9 @@ class CustomerAccountController
 
     def update_balance(record, amount, transaction_type)
         if (record.customer_account_info.balance >= amount && transaction_type == "debit")
-            record.customer_account_info.transaction(record.customer_account_info.account_number, -amount)
+            record.customer_account_info.transaction(-amount)
         elsif (transaction_type == "credit")
-            record.customer_account_info.transaction(record.customer_account_info.account_number, amount) 
+            record.customer_account_info.transaction(amount) 
         else
             puts "#{record.customer_account_info.account_number} #{amount} #{transaction_type} Transaction not possible because of low balance"
         end

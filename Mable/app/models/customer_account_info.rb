@@ -1,12 +1,13 @@
 class CustomerAccountInfo
-    attr_accessor :account_number, :balance
+    attr_accessor :balance
+    attr_reader  :account_number
 
-    def initialize(acc_num, balance)
-        @account_number = acc_num
-        @balance = balance
+    def initialize(attributes = {})
+        @account_number = attributes[:account_number]
+        @balance = attributes[:balance]
     end
 
-    def transaction(account_number, amount)
+    def transaction(amount)
         @balance += amount
     end
 end
