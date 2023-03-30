@@ -95,4 +95,6 @@ RSpec.configure do |config|
   # as the one that triggered the failure.
   Kernel.srand config.seed
 =end
+APP_ROOT = File.expand_path('../..', __FILE__)
+puts APP_ROOT
 end

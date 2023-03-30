@@ -3,8 +3,8 @@ class Company
     attr_accessor :customer_account_info
     attr_reader :company_name
 
-    def initialize(company_name, customer_account_info)
-        @company_name = company_name
-        @customer_account_info = customer_account_info
+    def initialize(attributes = {})
+        @company_name = attributes[:company_name]
+        @customer_account_info = attributes[:customer_account_info]
     end
 end

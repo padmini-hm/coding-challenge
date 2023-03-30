@@ -1,4 +1,3 @@
-# require_relative '../repositories/customer_account_repository'
 require_relative '../repositories/company_repository'
 require_relative '../models/customer_account_info'
 require 'csv'
@@ -9,18 +8,10 @@ class CustomerAccountController
         @repo = repo
         @file_path = csv_filepath
         
-        CSV.foreach(@file_path) do |row|
-            hash =  {
-            from_acc_num: row[0],
-            to_acc_num: row[1],
-            amount: row[2].to_f
-            }
-            @single_day_transactions_data << hash
-        end
+        load_single_day_transaction_data(@file_path)
     end
 
     def check_account_number_update_balance
-        @repo.display
             @single_day_transactions_data.each do |data|
 
                  debit_record = @repo.find_record(data[:from_acc_num])
@@ -40,11 +31,10 @@ class CustomerAccountController
                  end
             end
             @repo.display
-    #    @repo.update_csv
+        # @repo.update_csv
     end
 
     def update_balance(record, amount, transaction_type)
-        p record.customer_account_info.account_number
         if (record.customer_account_info.balance >= amount && transaction_type == "debit")
             record.customer_account_info.transaction(-amount)
         elsif (transaction_type == "credit")
@@ -52,7 +42,17 @@ class CustomerAccountController
         else
             puts "#{record.customer_account_info.account_number} #{amount} #{transaction_type} Transaction not possible because of low balance"
         end
+    end
 
+    def load_single_day_transaction_data(file_path)
+        CSV.foreach(file_path) do |row|
+            hash =  {
+            from_acc_num: row[0],
+            to_acc_num: row[1],
+            amount: (row[2].to_f * 100).to_i
+            }
+            @single_day_transactions_data << hash
+        end
     end
 end
 
