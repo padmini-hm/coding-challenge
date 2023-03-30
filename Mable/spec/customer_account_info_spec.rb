@@ -15,10 +15,10 @@ describe "CustomerAccountInfo", :customer_account_info do
         expect(customer_account_info.balance).to eq(100.00)
     end
  
-    it "should set the balance" do
-        customer_account_info.balance += 100.00 
-        expect(customer_account_info.balance).to eq(200.00)
-    end
+    # it "should set the balance only through the method transcation" do
+    #     customer_account_info.balance += 100.00 
+    #     expect(customer_account_info.balance).to eq(200.00)
+    # end
 
     it "should let 16 digit account number" do
         expect(customer_account_info.account_number.length).to eq(16)   

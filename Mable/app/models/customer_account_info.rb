@@ -1,6 +1,5 @@
 class CustomerAccountInfo
-    attr_accessor :balance
-    attr_reader  :account_number
+    attr_reader  :account_number, :balance
 
     def initialize(attributes = {})
     

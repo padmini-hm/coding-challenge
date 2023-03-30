@@ -22,8 +22,8 @@ class CompanyRepository
        p @repo
     end
 
-    def find_record(acc_num)
-        @repo.find{|record| record.customer_account_info.account_number == acc_num}
+    def find(account_number)
+        @repo.find{|record| record.customer_account_info.account_number == account_number}
     end
 
     def load_csv(file_path)
@@ -37,7 +37,7 @@ class CompanyRepository
         end     
     end
 
-    # def update_csv
+    # def save_csv
     #     CSV.open(@file_path, 'wb') do |csv|
     #         @repo.each do |customer_record|
     #           csv << [customer_record.customer_account_info.account_number, sprintf('%.2f',customer_record.customer_account_info.balance/100.0)]

@@ -14,8 +14,8 @@ class CustomerAccountController
     def check_account_number_update_balance
             @single_day_transactions_data.each do |data|
 
-                 debit_record = @repo.find_record(data[:from_acc_num])
-                 credit_record = @repo.find_record(data[:to_acc_num])   
+                 debit_record = @repo.find(data[:from_acc_num])
+                 credit_record = @repo.find(data[:to_acc_num])   
 
                  puts("Account number #{data[:from_acc_num]} doesn't exist") if (debit_record.nil?)
                  puts("Account number #{data[:to_acc_num]} doesn't exist") if (credit_record.nil?)
@@ -31,7 +31,7 @@ class CustomerAccountController
                  end
             end
             @repo.display
-        # @repo.update_csv
+        # @repo.save_csv
     end
 
     def update_balance(record, amount, transaction_type)
