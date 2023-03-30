@@ -3,7 +3,7 @@
 ruby version - 3.0.0p0
 RSpec 3.12
 
-Go to Mable directory has app, data and spec directories
+Mable directory has app, data and spec directories
 
 
   1. app has models, controllers, repositories
