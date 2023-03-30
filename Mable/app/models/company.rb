@@ -5,6 +5,6 @@ class Company
 
     def initialize(attributes = {})
         @company_name = attributes[:company_name]
-        @customer_account_info = attributes[:customer_account_info]
+        @customer_account_info = attributes[:customer_account_info] 
     end
 end
