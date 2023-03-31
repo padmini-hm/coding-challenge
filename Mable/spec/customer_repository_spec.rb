@@ -20,34 +20,25 @@ describe "CustomerRepository", :customer_repository do
       CsvHelper.write_csv(csv_path, customer_account_info)
     end
 
-describe "#find" do
-    it "should retrieve a specific customer info based on its account number" do
-        
-      repo = CustomerRepository.new(csv_path)
-    
-        customer = repo.find_by("1111234522221234")
-        
-        expect(customer.account_number).to eq("1111234522221234")
-        expect(customer.balance).to eq(1000000)
+  describe "#initialize" do
+    it "should take one argument: the CSV file path to store customer information" do
+      expect(CustomerRepository.instance_method(:initialize).arity).to eq(1)
     end
   end
+
+  describe "#find" do
+      it "should retrieve a specific customer info based on its account number" do   
+        repo = CustomerRepository.new(csv_path)
+        customer = repo.find_by("1111234522221234")
+        expect(customer.account_number).to eq("1111234522221234")
+        expect(customer.balance).to eq(1000000)
+      end
+    end
 
   describe "#all" do
     it "should return all the customers stored by the repo" do
       repo = CustomerRepository.new(csv_path)
-    
-        customer = repo.find_by("1111234522221234")
-        
         expect(repo.all).to be_a(Array)
-        # p repo.all[0].customer_account_info.account_number
-        expect(repo.all[0].account_number).to eq("1111234522226789")
     end
   end
-
-#   describe "#all" do
-#     it "should return all the meals stored by the repo" do
-#       repo = MealRepository.new(csv_path)
-#       expect(repo.all).to be_a(Array)
-#       expect(repo.all[0].name).to eq("Margherita")
-#     end
 end

@@ -30,7 +30,7 @@ class CustomerAccountController
     def is_account_number_exists?(account_number)
         @repo.find_by(account_number)
     end
-    
+
     def load_single_day_transaction_data(file_path)
         CSV.foreach(file_path) do |row|
             hash =  {
