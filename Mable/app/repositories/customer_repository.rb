@@ -2,19 +2,19 @@ require_relative '../models/customer_account_info'
 require_relative '../models/company'
 
 require 'csv'
-class CompanyRepository
+class CustomerRepository
     attr_accessor :repo
 
-    def initialize(csv_filepath, company_name)
+    def initialize(csv_filepath)
         @repo = []
-        @company_name = company_name
+        # @company_name = company_name
         @file_path = csv_filepath   
         load_csv(@file_path)
     end
 
     def display
         @repo.each { |record|
-                puts("#{record.company_name} | #{record.customer_account_info.account_number} | #{record.customer_account_info.balance}")
+                puts("#{record.account_number} | #{record.balance}")
         }
     end
 
@@ -23,7 +23,7 @@ class CompanyRepository
     end
 
     def find_by(account_number)
-        @repo.find{|record| record.customer_account_info.account_number == account_number}
+        @repo.find{|record| record.account_number == account_number}
     end
 
     def load_csv(file_path)
@@ -33,7 +33,9 @@ class CompanyRepository
             balance: (row[1].to_f * 100).to_i
             }    
             customer_account_info = CustomerAccountInfo.new(hash)
-            @repo << Company.new({company_name: @company_name, customer_account_info: customer_account_info}) if(!customer_account_info.account_number.nil? && !customer_account_info.balance.nil?)
+            @repo << customer_account_info if !customer_account_info.account_number.nil? && !customer_account_info.balance.nil?
+            
+            # @repo << Company.new({company_name: @company_name, customer_account_info: customer_account_info}) if(!customer_account_info.account_number.nil? && !customer_account_info.balance.nil?)
         end     
     end
 
