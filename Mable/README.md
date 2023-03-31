@@ -13,14 +13,14 @@ Mable directory has app, data and spec directories
       2. mable_trans.csv -> Single day transactions between the customers of a perticular company.
 
     2. models has 
-        1. Company Model -> To store the information of all the customers with their account number and balance, and the comapny name.
-        2. Customer Account Information MOdel -> contains each customers information on their account number and balance. And a method to handle          update the balance for each transaction.
+        1. Company Model -> To store the information of all the customers with their account number and balance, and the comapny name. (Company Model has been removed, as we dont need a company model.)
+        2. Customer Account Information Model -> contains each customers information on their account number and balance. And a method to handle          update the balance for each transaction.
         Validations: Account number should be a 16 digit number. Balance should be a non negative float value. 
         Calculation: To update the balance based on transaction type and amount, both balance and amount are converted into cents.
         Clarification: Not sure if we have to update the mable_acc_balance.csv file with the updated balance in dollars.
         
      3. repositories -> 
-        1. contains information of a company with its name, and information of all customers with account number and balance.
+        1. contains information of a company with its name, and information of all customers with account number and balance. (Updated as CustomerRepository contains infomation of cutomers and their balance)
         2. This information is loaded from the csv file mable_acc_balance.csv
         3. Account number is assumed to be a string.
         4. Balance is assumed to be a float value. Which has been later converted into cents for the calsulation purpose.
@@ -31,16 +31,17 @@ Mable directory has app, data and spec directories
         
       4. Controllers -> 
         1. Controller loads the single day transaction file mable_trans.csv 
-        2. Check if they are genuine customers, by comapring their account number from company repository.
-        3. The transaction will happen only if both the customers(from and to) exists in the comapny database(repo).
+        2. Check if they are genuine customers, by comapring their account number from customer repository.
+        3. The transaction will happen only if both the customers(from and to) exists in the customer database(repo).
         4. Transaction happens only if the customer has enough balance to transfer the amount.
         5. Since there are two kinds of transaction is happening, I have used the name credit and debit. These name needs to handled more efficiently as of now I have just hard coded these values.
         6. For the privacy reason, the balance is updated only within the Custome Info model.
         
      5.spec -> 
      
-      1. customer_account_info_spec.rb -
-      2. company_spec.rb
+      1. customer_account_info_spec.rb - checks the condition for valid account number and balance.
+      2. company_spec.rb(not needed)
+      3. customer_repository_spec.rb - checks the condition to retrieve customer record from repo by using find_by(account_number) method.
         
      
         
