@@ -15,7 +15,8 @@ class CustomerAccountInfo
     #     (balance.to_f * 100).to_i
     # end
 
-    def transaction(amount)
+    def update_balance_with(amount)
+        
          @balance += amount
         #  p "amount=#{amount} balance=#{@balance} acc_num #{@account_number}"
         

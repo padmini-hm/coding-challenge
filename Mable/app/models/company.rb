@@ -4,7 +4,7 @@ class Company
     attr_reader :company_name
 
     def initialize(attributes = {})
-        @company_name = attributes[:company_name]
+        @company_name = attributes[:company_name] || "Alpha"
         @customer_account_info = attributes[:customer_account_info] 
     end
 end

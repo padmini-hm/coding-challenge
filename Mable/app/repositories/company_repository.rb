@@ -22,7 +22,7 @@ class CompanyRepository
        p @repo
     end
 
-    def find(account_number)
+    def find_by(account_number)
         @repo.find{|record| record.customer_account_info.account_number == account_number}
     end
 
