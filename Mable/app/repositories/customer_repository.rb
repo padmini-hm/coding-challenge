@@ -10,13 +10,6 @@ class CustomerRepository
         load_csv(@file_path)
     end
 
-    def display
-        
-        @repo.each { |record|
-                puts("#{record.account_number} | #{record.balance}")
-        }
-    end
-
     def all
        p @repo
     end
@@ -39,7 +32,7 @@ class CustomerRepository
     # def save_csv
     #     CSV.open(@file_path, 'wb') do |csv|
     #         @repo.each do |customer_record|
-    #           csv << [customer_record.customer_account_info.account_number, sprintf('%.2f',customer_record.customer_account_info.balance/100.0)]
+    #           csv << [customer_record.account_number, sprintf('%.2f',customer_record.balance/100.0)]
     #         end
     #     end
     # end

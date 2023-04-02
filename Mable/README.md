@@ -28,17 +28,19 @@ Mable directory has app, data and spec directories
         4. Balance is assumed to be a numeric value. Which has been later converted into cents for the calculation purpose.
         5. Has a method #find_by(account_number) to find the customer information based on their account number.
         6. method #all displays all customers information with their account number and current balance.
-        7. #Display method gives the same information as the method #all but in a more readable format. Its not a good idea to write display method in repository as it should be handled by the Views. Since showing data is not part of the requirement, I have displayed in repository.
-        8. #save_csv method rewrites mable_acc_balance.csv file with the updated blance after the transaction. As of now I have commented this method, not sure if it part of the requirement.
+        7. #save_csv method rewrites mable_acc_balance.csv file with the updated blance after the transaction. As of now I have commented this method, not sure if it part of the requirement.
         
       4. Controllers -> 
         1. Controller loads the single day transaction file mable_trans.csv 
         2. Check if the customers already exists, by comapring their account number from customer repository.
         3. The transaction will happen only if both the customers(from and to) exists in the customer database(repo).
         4. Transaction happens only if the customer has enough balance to transfer the amount.
-        5. For the privacy reason, its good to create a private method in the CustomerAccountInfo model, to update the balance.
+        5. #display_transaction_information method displays the transaction information written in view.
+        6. For the privacy reason, its good to create a private method in the CustomerAccountInfo model, to update the balance.
         
-        
+      5. Views ->
+        1. Displays customer transaction information.
+
      5.spec -> 
      
       1. customer_account_info_spec.rb - Validates account number and balance.
@@ -48,11 +50,10 @@ Mable directory has app, data and spec directories
         
     6. Future Work
 
-      1.Would like to add view - to display the customers information.
-      2.Put validations if the file exists before loading the csv.
-      3.Handle balance updation by creating a private method in customr_account_information model.
-      4.Create private method to validate account number and balance, and handle the error.
-      5.Add more test cases in rspec.
+      1.Put validations if the file exists before loading the csv.
+      2.Handle balance updation by creating a private method in customr_account_information model.
+      3.Create private methods to validate account number and balance, and handle the error.
+      4.Add more test cases in rspec.
      
         
   

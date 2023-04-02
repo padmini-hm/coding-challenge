@@ -1,13 +1,15 @@
 require_relative '../repositories/customer_repository'
 require_relative '../models/customer_account_info'
+require_relative '../views/customer_view.rb'
 require 'csv'
+
 class CustomersAccountController
     def  initialize(csv_filepath, repo)
 
         @single_day_transactions_data = []
         @repo = repo
         @file_path = csv_filepath
-        
+        @view = CustomerView.new
         load_single_day_transaction_data(@file_path)
     end
 
@@ -20,10 +22,10 @@ class CustomersAccountController
                 if(!debit_record.nil? && !credit_record.nil? && debit_record.balance >= data[:amount]) 
                     debit_record.update_balance_with(-data[:amount]) 
                     credit_record.update_balance_with(data[:amount])
+                    @view.display_transaction_information(debit_record, credit_record, data[:amount])
                 end
         end
-            # @repo.all
-            @repo.display
+        # @repo.all
         # @repo.save_csv
     end
 
