@@ -16,9 +16,6 @@ class CustomerAccountInfo
     # end
 
     def update_balance_with(amount)
-        
          @balance += amount
-        #  p "amount=#{amount} balance=#{@balance} acc_num #{@account_number}"
-        
     end
 end

@@ -1,7 +1,7 @@
 require_relative '../repositories/customer_repository'
 require_relative '../models/customer_account_info'
 require 'csv'
-class CustomerAccountController
+class CustomersAccountController
     def  initialize(csv_filepath, repo)
 
         @single_day_transactions_data = []

@@ -1,13 +1,11 @@
 require_relative '../models/customer_account_info'
-require_relative '../models/company'
-
 require 'csv'
+
 class CustomerRepository
     attr_accessor :repo
 
     def initialize(csv_filepath)
         @repo = []
-        # @company_name = company_name
         @file_path = csv_filepath   
         load_csv(@file_path)
     end
@@ -34,8 +32,6 @@ class CustomerRepository
             }    
             customer_account_info = CustomerAccountInfo.new(hash)
             @repo << customer_account_info if !customer_account_info.account_number.nil? && !customer_account_info.balance.nil?
-            
-            # @repo << Company.new({company_name: @company_name, customer_account_info: customer_account_info}) if(!customer_account_info.account_number.nil? && !customer_account_info.balance.nil?)
         end     
     end
 

@@ -1,4 +1,4 @@
-require_relative '../app/controllers/customer_account_controller'
+require_relative '../app/controllers/customers_account_controller'
 require_relative '../app/models/customer_account_info'
 require_relative "support/csv_helper"
 
