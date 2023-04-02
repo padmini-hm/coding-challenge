@@ -2,20 +2,21 @@ class CustomerAccountInfo
     attr_reader  :account_number, :balance
 
     def initialize(attributes = {})
-    
-        @account_number = attributes[:account_number] if attributes[:account_number].length == 16 && attributes[:account_number].match(/^\d+$/)
-        
-        @balance = attributes[:balance] if !attributes[:balance].negative?
-            
-        #  @balance = convert_dollar_to_cent(attributes[:balance])    
+
+        @account_number = attributes[:account_number]  if attributes[:account_number].match(/^\d+$/) && attributes[:account_number].length == 16
+        @balance = attributes[:balance] if attributes[:balance].is_a?(Numeric) && attributes[:balance] >= 0
     end
-
-
-    # def convert_dollar_to_cent(balance)
-    #     (balance.to_f * 100).to_i
-    # end
 
     def update_balance_with(amount)
          @balance += amount
     end
+
+    # private
+    #     def validate_account_number(account_number)
+    #       raise ArgumentError, "Invalid account number" unless account_number.match(/^\d+$/) && account_number.length == 16
+    #     end
+
+    #     def validate_balance(balance)
+    #       raise ArgumentError, "Invalid balance" unless balance.is_a?(Numeric) && balance >= 0
+    #     end
 end

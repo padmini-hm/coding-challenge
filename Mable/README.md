@@ -3,6 +3,9 @@
 ruby version - 3.0.0p0
 RSpec 3.12
 
+run: app.rb from Mable directory
+run: rspec spec/* from Mable directory
+
 Mable directory has app, data and spec directories
 
 
@@ -13,36 +16,43 @@ Mable directory has app, data and spec directories
       2. mable_trans.csv -> Single day transactions between the customers of a perticular company.
 
     2. models has 
-        1. Company Model -> To store the information of all the customers with their account number and balance, and the comapny name. (Company Model has been removed, as we dont need a company model.)
-        2. Customer Account Information Model -> contains each customers information on their account number and balance. And a method to handle          update the balance for each transaction.
-        Validations: Account number should be a 16 digit number. Balance should be a non negative float value. 
-        Calculation: To update the balance based on transaction type and amount, both balance and amount are converted into cents.
+        1. Customer Account Information Model -> contains each customer's account information such as account number and balance. And a method #update_balance_with(amount) to update the balance for each transaction.
+        Validations: Account number should be a 16 digit number. Balance should be a numerci value greater than or equal to zero. 
+        Calculation: To update the balance with amount, both balance and amount are converted into cents. The updated balance is stored and displayed in terms of cents.
         Clarification: Not sure if we have to update the mable_acc_balance.csv file with the updated balance in dollars.
         
      3. repositories -> 
-        1. contains information of a company with its name, and information of all customers with account number and balance. (Updated as CustomerRepository contains infomation of cutomers and their balance)
+        1. contains information of all customers with their account number and balance. 
         2. This information is loaded from the csv file mable_acc_balance.csv
-        3. Account number is assumed to be a string.
-        4. Balance is assumed to be a float value. Which has been later converted into cents for the calsulation purpose.
-        5. Has a method find to find the customer information based on their account number.
-        6. method all, displays all customers information with their account number and current balance.
-        7. Display method gives the same information as the method all but in a more readable format. Its not a good idea to write display method in repository as it should be handled by the Views. Since showing data is not under the requirement, I have set the low preority.
-        8. save_csv method helps update the csv file with the recent updated balance after the transaction. As of now I have comecnted this method, not     sure if it part of the requirement.
+        3. Account number is assumed to be a 16 digit string.
+        4. Balance is assumed to be a numeric value. Which has been later converted into cents for the calculation purpose.
+        5. Has a method #find_by(account_number) to find the customer information based on their account number.
+        6. method #all displays all customers information with their account number and current balance.
+        7. #Display method gives the same information as the method #all but in a more readable format. Its not a good idea to write display method in repository as it should be handled by the Views. Since showing data is not part of the requirement, I have displayed in repository.
+        8. #save_csv method rewrites mable_acc_balance.csv file with the updated blance after the transaction. As of now I have commented this method, not sure if it part of the requirement.
         
       4. Controllers -> 
         1. Controller loads the single day transaction file mable_trans.csv 
-        2. Check if they are genuine customers, by comapring their account number from customer repository.
+        2. Check if the customers already exists, by comapring their account number from customer repository.
         3. The transaction will happen only if both the customers(from and to) exists in the customer database(repo).
         4. Transaction happens only if the customer has enough balance to transfer the amount.
-        5. Since there are two kinds of transaction is happening, I have used the name credit and debit. These name needs to handled more efficiently as of now I have just hard coded these values.
-        6. For the privacy reason, the balance is updated only within the Custome Info model.
+        5. For the privacy reason, its good to create a private method in the CustomerAccountInfo model, to update the balance.
+        
         
      5.spec -> 
      
-      1. customer_account_info_spec.rb - checks the condition for valid account number and balance.
-      2. company_spec.rb(not needed)
-      3. customer_repository_spec.rb - checks the condition to retrieve customer record from repo by using find_by(account_number) method.
+      1. customer_account_info_spec.rb - Validates account number and balance.
+      2. customer_repository_spec.rb - checks the condition to retrieve customer record from repo by using find_by(account_number) method.
+      3.customers_account_controller_spec.rb - checks if the customers exists in the data base before the transaction and updates the balance accordingly.
+
         
+    6. Future Work
+
+      1.Would like to add view - to display the customers information.
+      2.Put validations if the file exists before loading the csv.
+      3.Handle balance updation by creating a private method in customr_account_information model.
+      4.Create private method to validate account number and balance, and handle the error.
+      5.Add more test cases in rspec.
      
         
   

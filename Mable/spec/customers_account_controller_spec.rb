@@ -3,7 +3,7 @@ require_relative '../app/models/customer_account_info'
 require_relative "support/csv_helper"
 
 
-describe "CustomerAccountController", :customer_account_repository do
+describe "CustomersAccountController", :customer_account_repository do
     let(:customer_account_info) do
       [
         ["1111234522226789", 5000.00],
@@ -38,23 +38,29 @@ describe "CustomerAccountController", :customer_account_repository do
 
     describe "#initialize" do
         it "should take two arguments: the CSV file path for day transaction and instace of Customer repository" do
-          expect(CustomerAccountController.instance_method(:initialize).arity).to eq(2)
+          expect(CustomersAccountController.instance_method(:initialize).arity).to eq(2)
         end
     
         it "should be initialized with a `CustomerRepository` instance and a csv file path for day transaction" do
-            controller = CustomerAccountController.new(csv_path_for_day_transaction, repository)
-            expect(controller).to be_a(CustomerAccountController)
+            controller = CustomersAccountController.new(csv_path_for_day_transaction, repository)
+            expect(controller).to be_a(CustomersAccountController)
         end
     end
 
     describe "#transaction" do
 
         it "Should check if the customer A and customer B are already existing customers" do
-            customer_account_controller = CustomerAccountController.new(csv_path_for_day_transaction, repository)
-            customerA = customer_account_controller.is_account_number_exists?("1111234522226789")
-            customerB = customer_account_controller.is_account_number_exists?("1212343433335665")
-            expect(customerA).not_to be_nil
-            expect(customerB).not_to be_nil
+            customers_account_controller = CustomersAccountController.new(csv_path_for_day_transaction, repository)
+            customerA = customers_account_controller.is_account_number_exists?("1111234522226789")
+            customerB = customers_account_controller.is_account_number_exists?("1212343433335665")
+            expect(customerA).not_to be_nil and expect(customerB).not_to be_nil
+         end
+
+         it "Should return nil if either customer A, customer B are not an existing customers" do
+            customers_account_controller = CustomersAccountController.new(csv_path_for_day_transaction, repository)
+            customerA = customers_account_controller.is_account_number_exists?("1111234522226711")
+            customerB = customers_account_controller.is_account_number_exists?("1212343433335611")
+            expect(customerA).to be_nil or expect(customerB).to be_nil
          end
 
         it "Should transfer amount from customer A to customer B if customerA has enough balance" do
@@ -62,6 +68,7 @@ describe "CustomerAccountController", :customer_account_repository do
             customer_from_acc_num = repository.find_by("1111234522226789")
             
             customer_to_acc_num = repository.find_by("1212343433335665")
+
             condition = customer_from_acc_num.balance >= single_day_transactions_data[:amount]
             expect(condition).to be(true)
             customer_from_acc_num_balance = customer_from_acc_num.update_balance_with(-single_day_transactions_data[:amount])
@@ -70,7 +77,7 @@ describe "CustomerAccountController", :customer_account_repository do
             expect(customer_to_acc_num_balance).to eq(170000)
         end
 
-        it "Should not transfer amount from customer A to customer B if customerA has balance less than amount" do
+        it "Should not transfer amount from customer A to customer B if customerA has balance less than the transaction amount" do
             single_day_transactions_data= {:from_acc_num=>"3212343433335733", :to_acc_num=>"3212343433335700", :amount=>20000} 
             
             customer_from_acc_num = CustomerAccountInfo.new({:account_number => "3212343433335722", :balance => 100.00})

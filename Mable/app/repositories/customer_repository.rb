@@ -11,6 +11,7 @@ class CustomerRepository
     end
 
     def display
+        
         @repo.each { |record|
                 puts("#{record.account_number} | #{record.balance}")
         }
